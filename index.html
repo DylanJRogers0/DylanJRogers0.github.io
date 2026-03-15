@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dylan Rogers</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f7f4ef;
+      --ink: #1a1714;
+      --ink-muted: #6b6460;
+      --ink-faint: #b8b2ac;
+      --accent: #8b4a2f;
+      --rule: #e0dbd4;
+      --font-serif: 'Cormorant Garamond', Georgia, serif;
+      --font-mono: 'DM Mono', 'Courier New', monospace;
+      --max: 680px;
+    }
+
+    html {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--font-serif);
+      font-size: 20px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body { min-height: 100vh; padding: 0 24px; }
+    .site { max-width: var(--max); margin: 0 auto; }
+
+    button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      padding: 0;
+    }
+
+    /* Header */
+    header {
+      padding-top: 72px;
+      padding-bottom: 56px;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .wordmark {
+      font-size: 1.05rem;
+      font-weight: 400;
+      letter-spacing: 0.01em;
+      color: var(--ink);
+    }
+
+    nav { margin-top: 28px; display: flex; gap: 28px; }
+
+    nav button {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+      transition: color 0.15s;
+    }
+
+    nav button:hover { color: var(--ink); }
+
+    nav button.active {
+      color: var(--ink);
+      border-bottom: 1px solid var(--ink);
+      padding-bottom: 1px;
+    }
+
+    /* Pages */
+    .page { display: none; padding-top: 64px; padding-bottom: 96px; animation: fadein 0.3s ease; }
+    .page.active { display: block; }
+
+    @keyframes fadein {
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* About */
+    .lede {
+      font-size: 1.55rem;
+      font-weight: 300;
+      line-height: 1.5;
+      font-style: italic;
+      max-width: 580px;
+      margin-bottom: 40px;
+    }
+
+    .bio { font-size: 1.05rem; font-weight: 300; color: var(--ink-muted); line-height: 1.7; max-width: 560px; }
+    .bio p + p { margin-top: 1.1em; }
+    .bio a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+
+    .contact-block { margin-top: 52px; padding-top: 40px; border-top: 1px solid var(--rule); }
+
+    .contact-label {
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      margin-bottom: 20px;
+    }
+
+    .contact-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .contact-list li { display: flex; align-items: baseline; gap: 16px; }
+
+    .c-type {
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      min-width: 52px;
+    }
+
+    .contact-list a {
+      font-size: 0.95rem;
+      font-weight: 300;
+      color: var(--ink);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      text-decoration-color: var(--rule);
+      transition: text-decoration-color 0.15s;
+    }
+    .contact-list a:hover { text-decoration-color: var(--ink); }
+
+    /* Writing list */
+    .writing-intro {
+      font-size: 0.88rem;
+      font-family: var(--font-mono);
+      color: var(--ink-faint);
+      letter-spacing: 0.02em;
+      margin-bottom: 48px;
+      line-height: 1.6;
+    }
+
+    .writing-list { list-style: none; }
+
+    .writing-item { border-bottom: 1px solid var(--rule); }
+    .writing-item:first-child { border-top: 1px solid var(--rule); }
+
+    .writing-item-header {
+      padding: 32px 0;
+      cursor: pointer;
+    }
+
+    .writing-item-header:hover .writing-title { color: var(--accent); }
+
+    .writing-meta { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+
+    .writing-year { font-family: var(--font-mono); font-size: 0.62rem; color: var(--ink-faint); letter-spacing: 0.04em; }
+
+    .writing-status {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 2px 7px;
+      border-radius: 2px;
+    }
+    .status-note { background: #ede8e1; color: #9a8c7f; }
+
+    .writing-title { font-size: 1.2rem; font-weight: 400; line-height: 1.35; color: var(--ink); margin-bottom: 8px; transition: color 0.15s; }
+    .writing-subtitle { font-size: 0.93rem; font-weight: 300; font-style: italic; color: var(--ink-muted); line-height: 1.5; }
+
+    /* Essay body (inline reading view) */
+    .essay-body {
+      display: none;
+      padding: 0 0 40px 0;
+      border-top: 1px solid var(--rule);
+      animation: fadein 0.25s ease;
+    }
+
+    .essay-body.open { display: block; }
+
+    .essay-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      margin: 28px 0 36px;
+      cursor: pointer;
+      transition: color 0.15s;
+    }
+    .essay-back:hover { color: var(--ink); }
+
+    .essay-content h1 {
+      font-size: 1.5rem;
+      font-weight: 400;
+      line-height: 1.3;
+      margin-bottom: 6px;
+    }
+
+    .essay-content .essay-date {
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      color: var(--ink-faint);
+      letter-spacing: 0.06em;
+      margin-bottom: 36px;
+      display: block;
+    }
+
+    .essay-content h2 {
+      font-size: 1.05rem;
+      font-weight: 400;
+      margin-top: 2em;
+      margin-bottom: 0.5em;
+      color: var(--ink);
+    }
+
+    .essay-content p {
+      font-size: 1rem;
+      font-weight: 300;
+      color: var(--ink-muted);
+      line-height: 1.75;
+      margin-bottom: 1.1em;
+      max-width: 620px;
+    }
+
+    .essay-content ul {
+      margin: 0.5em 0 1.1em 1.2em;
+      max-width: 600px;
+    }
+
+    .essay-content li {
+      font-size: 1rem;
+      font-weight: 300;
+      color: var(--ink-muted);
+      line-height: 1.7;
+      margin-bottom: 0.5em;
+    }
+
+    .essay-content .disclaimer {
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      color: var(--ink-faint);
+      letter-spacing: 0.03em;
+      margin-bottom: 32px;
+      padding-bottom: 28px;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    /* Footer */
+    footer { border-top: 1px solid var(--rule); padding: 28px 0 48px; }
+    .footer-inner { font-family: var(--font-mono); font-size: 0.62rem; color: var(--ink-faint); letter-spacing: 0.04em; }
+
+    @media (max-width: 480px) {
+      html { font-size: 18px; }
+      header { padding-top: 48px; padding-bottom: 40px; }
+      .lede { font-size: 1.35rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="site">
+
+    <header>
+      <button class="wordmark" id="nav-wordmark">Dylan Rogers</button>
+      <nav>
+        <button class="active" id="nav-about">About</button>
+        <button id="nav-writing">Writing</button>
+      </nav>
+    </header>
+
+    <!-- About -->
+    <section class="page active" id="page-about">
+      <p class="lede">Technology, policy, and the geopolitics of what comes next.</p>
+      <div class="bio">
+        <p>
+          I am a Senior Policy Advisor at the UK AI Security Institute (AISI), currently on leave as a
+          Kennedy Scholar at Harvard University, where I focus on the geopolitics of frontier AI.
+        </p>
+        <p>
+          I have previously worked as a consultant, open-source intelligence analyst, and at the
+          United Nations in Geneva.
+        </p>
+      </div>
+
+      <div class="contact-block">
+        <p class="contact-label">Contact</p>
+        <ul class="contact-list">
+          <li>
+            <span class="c-type">Email</span>
+            <a id="email-link" href="#">—</a>
+          </li>
+          <li>
+            <span class="c-type">LinkedIn</span>
+            <a href="https://linkedin.com/in/" target="_blank">linkedin.com/in/dylanrogers</a>
+          </li>
+          <li>
+            <span class="c-type">Meet</span>
+            <a href="https://calendly.com/dylanrogers-fas" target="_blank">Find a time</a>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Writing -->
+    <section class="page" id="page-writing">
+      <p class="writing-intro">Notes, essays, and works in progress. Personal views only. Often updated with new information.</p>
+      <ul class="writing-list">
+
+        <li class="writing-item">
+          <div class="writing-item-header" onclick="toggleEssay('sovereign')">
+            <div class="writing-meta">
+              <span class="writing-year">Dec 2025</span>
+              <span class="writing-status status-note">Note</span>
+            </div>
+            <p class="writing-title">Sovereign AI in Practice</p>
+            <p class="writing-subtitle">An investment strategy for leverage in 2026.</p>
+          </div>
+          <div class="essay-body" id="essay-sovereign">
+            <button class="essay-back" onclick="toggleEssay('sovereign')">&#8592; Back</button>
+            <div class="essay-content">
+              <h1>Sovereign AI in Practice</h1>
+              <span class="essay-date">December 2025</span>
+              <p class="disclaimer">Personal views only — not UK government policy.</p>
+
+              <p>National power is a product of technological change and economic growth. Nations that develop and deploy new technologies grow faster. Differential growth rates shift the economic balance of power. The political and military balance shifts soon after.</p>
+
+              <p>The capabilities of frontier AI systems are advancing at pace. Continued capability progress and diffusion are likely to drive global economic growth in the coming years. Yet the UK still lacks a stake in frontier AI development. We are on track to outsource the fundamental factors of national power to American AI companies.</p>
+
+              <p>Sovereign AI is our response. 2026 should be the year the UK starts to deliver Sovereign AI in practice.</p>
+
+              <h2>Defining Sovereign AI</h2>
+
+              <p>Nvidia defines Sovereign AI as 'a nation's capabilities to produce AI using its own infrastructure, data, workforce and business networks'. Oracle defines Sovereign AI as 'the domestic production of AI'. This entails buying rapidly depreciating compute in a Red Queen's Race to keep up with the frontier. The UK needs a broader definition.</p>
+
+              <p>Sovereign AI is the capability to ensure frontier AI development and deployment adheres to the norms, laws, and values of the UK and creates domestic economic value. The AI Opportunities Action Plan uses a similar definition: 'Sovereign AI should ensure economic upside from, and influence on, the governance of frontier AI for the UK'.</p>
+
+              <p>Sovereign AI does not mean complete autonomy. It is neither feasible nor economically efficient for the UK to onshore frontier AI development. Instead, Sovereign AI sets an aspiration. The UK should become indispensable to the frontier AI value chain.</p>
+
+              <h2>Identifying Sovereign Assets</h2>
+
+              <p>Sovereign assets occupy central nodes in the frontier AI value chain and have low elasticity of demand. More specifically, Sovereign AI should entail investing in assets that fit the following criteria:</p>
+
+              <ul>
+                <li><strong>Limited Substitutes:</strong> It is challenging to realise value from frontier AI without the asset. Suppliers are scarce, creating a natural monopoly or oligopoly.</li>
+                <li><strong>High Barriers to Entry:</strong> The asset is insulated from competition by massive fixed costs, complex supplier networks or idiosyncratic company or national cultures.</li>
+                <li><strong>Difficult to 'Innovate Around':</strong> It should be difficult to design the asset 'out' of the frontier AI value chain in any reasonable time window.</li>
+                <li><strong>Rivalrous Externalities:</strong> The asset has ancillary benefits that are captured by the UK. It contributes to innovation or infrastructure that benefits the broader economy. It creates capacity that could be repurposed in a crisis.</li>
+              </ul>
+
+              <h2>Investment Strategies</h2>
+
+              <p>A number of assets could still fit this criteria. The Sovereign AI Unit therefore needs an investment strategy. We can identify at least three plausible approaches.</p>
+
+              <p><strong>Control Chokepoints:</strong> Software runs on hardware. Sovereign AI should entail identifying central nodes in the semiconductor supply chain under UK jurisdiction and investing to increase asset specificity. In practice: Arm, Imagination Technologies and Alphawave Semi all generate core semiconductor IP. A chokepoint investment strategy would deepen UK comparative advantage in IP.</p>
+
+              <p><strong>Complementary Assets:</strong> Frontier AI is general-purpose. AI companies cannot own every complementary asset that enables value to be realised from frontier AI. Sovereign AI should entail investing at the interface between AI capabilities and the real economy. In practice: this means identifying bottlenecks to realising value from frontier AI in advance — targeted investments in tools to navigate the digital-to-physical divide or third-party support services.</p>
+
+              <p><strong>Asymmetric Innovation:</strong> The UK is dispensable under the current paradigm. Sovereign AI should entail investing in new paradigms of frontier AI development that make assets held by the UK chokepoints or complementary to continued progress. In practice: an asymmetric innovation strategy would seek to enable research breakthroughs — crowding funding into ARIA, making high-risk high-reward investments into AI startups through the National Wealth Fund.</p>
+
+              <h2>Challenges to Chokepoints</h2>
+
+              <p>A chokepoint investment strategy is attractive because it starts from a point of strength. Yet controlling chokepoints in the semiconductor supply chain creates limited leverage for middle powers. The US exercises structural control over the entire supply chain, and will invest to challenge chokepoints.</p>
+
+              <p>ASML illustrates the extent of US structural power. ASML has a monopoly on EUV photolithography machines. Yet the first EUV machine was built at Lawrence Livermore National Laboratory. R&amp;D was underwritten by a consortium led by Intel. ASML manufactures EUV machines under a 1999 license from the US Department of Energy. This nexus to the US limits Dutch leverage — and it was this nexus that made it impossible for the Dutch Government to resist unilateral US export controls on ASML in 2023.</p>
+
+              <p>Leading powers will also respond to attempts by middle powers to deepen control of chokepoints. The greater the leverage held by middle powers, the greater the incentive for leading powers to invest in onshoring. Control of chokepoints becomes fundamentally unstable.</p>
+
+              <h2>An Investment Strategy for the UK</h2>
+
+              <p>This leaves the investment strategies of complementary assets and asymmetric innovation. More specifically, the UK should:</p>
+
+              <p><strong>Invest in Complementary Assets.</strong> Frontier AI is already 'good enough' for many applications. Realising economic value from advanced capabilities will be a priority for AI companies in 2026. The Sovereign AI Unit should focus on making targeted investments at the interface between advanced capabilities and the real economy — leveraging its partnerships with AI companies to build the best understanding of the jagged frontier of capabilities globally, and investing in bottlenecks to realising value from the capabilities of tomorrow.</p>
+
+              <p><strong>Enable Asymmetric Innovations.</strong> Owning complementary assets improves our position today. But lasting leverage requires betting on the next paradigm of AI development. The UK should mandate ARIA to find the 'next Transformer', with ring-fenced funding for architectural innovations. The UK should also scale the AIRR — the announcement of £1bn to expand it is welcome, but the expansion must be prioritised and compute dedicated to UK startups challenging the current paradigm.</p>
+
+              <p><strong>Protect Sovereign Assets.</strong> Sovereign assets are valuable as long as they remain UK controlled. But it is not clear the UK has the economic security architecture to respond if an American AI company made a bid for a sovereign asset. What if DeepMind happened all over again? In an age of weaponised interdependence the UK needs an economic security architecture to match. Without it the UK risks subsidising the R&amp;D of American AI companies.</p>
+
+              <h2>Conclusion</h2>
+
+              <p>The UK faces a choice. We can accept the default outcome: outsourcing the fundamental factors of national power. Or we can become indispensable — investing in complementary assets, enabling asymmetric innovation, and strengthening the economic security architecture. Sovereign AI sets an aspiration. 2026 should be the year the UK starts to deliver.</p>
+            </div>
+          </div>
+        </li>
+
+        <li class="writing-item">
+          <div class="writing-item-header" onclick="toggleEssay('allied')">
+            <div class="writing-meta">
+              <span class="writing-year">May 2025</span>
+              <span class="writing-status status-note">Note</span>
+            </div>
+            <p class="writing-title">Allied Scale for AI</p>
+            <p class="writing-subtitle">A net assessment approach to the global AI competition.</p>
+          </div>
+          <div class="essay-body" id="essay-allied">
+            <button class="essay-back" onclick="toggleEssay('allied')">&#8592; Back</button>
+            <div class="essay-content">
+              <h1>Allied Scale for AI</h1>
+              <span class="essay-date">May 2025</span>
+              <p class="disclaimer">Personal views only — draft — not UK government policy.</p>
+
+              <p>'After being dismissed as a phenomenon of an earlier century, great power competition has returned'. The National Security Strategy that the Trump Administration released in 2017 signalled a shift in international relations. From the end of the Cold War, the US generally pursued cooperation with other powers. Now a new Cold War had begun, and the US was engaged in great power competition with China. This is the consensus view in Washington today, so much that criticising 'Cold War mentality' has become standard Chinese diplomatic rhetoric.</p>
+
+              <p>On some metrics China is winning the new Cold War. China has twice the manufacturing capacity of the US. China leads on technologies from hypersonic missiles to electric batteries. The PLA Navy is twice as large as the US Navy — and China has 200 times the shipbuilding capacity. China's GDP is only 63% of US GDP — but China passed the US on purchasing power parity (PPP) in 2014.</p>
+
+              <p>This narrative can be compelling. As Graeme Allison told Congress in 2015, 'never has a state risen so far, so fast on so many different dimensions'. Yet it fails to account for an important US advantage. Allies.</p>
+
+              <p>Taken together, the US, EU, UK, Australia, Canada, India, Korea, Japan, Mexico and New Zealand have an economy double the size of China's, even adjusted for PPP. They spend a combined $1.5tn on defence, double China's annual military budget. On net there is no competition.</p>
+
+              <p>China has no comparable network of allies. Russia, Belarus, North Korea, Venezuela and Iran are closely aligned with China. Yet they are relative economic minnows. The Spanish economy is larger than the Russian economy. And China's legitimacy has not grown in proportion to its power. Countries in its near abroad rely on it for trade but still prefer the US for security guarantees. Dumping and debt-trap diplomacy are constant risks for nearby countries.</p>
+
+              <p>However, realising the US advantage in allies requires coordination. The US must collaborate with close partners in key domains to outclass China.</p>
+
+              <h2>Allied Scale for AI</h2>
+
+              <p>AI is a key domain for great power competition between the US and China. President Trump has demanded the US 'be laser-focused on competing to win' against China on AI. President Xi has called for China to 'recognise gaps' and 'redouble efforts' against the US. Policymakers in both countries recognise that the leader on AI development and diffusion could win a strategic advantage.</p>
+
+              <p>The US should leverage its network of international partners to achieve allied scale on AI. This should include the countries listed above at the minimum. Activities within this group should include:</p>
+
+              <ul>
+                <li><strong>Capacity building:</strong> This should include lowering barriers to AI talent moving between allied countries, and greater mutual investment. Allies should co-invest in advanced semiconductor manufacturing, R&amp;D and energy infrastructure. Investments should capitalise on areas of comparative advantage, for example French nuclear facilities or Dutch precision manufacturing. This should avoid inefficient onshoring between allies.</li>
+                <li><strong>Technology transfer:</strong> The US should facilitate allied access to American technology, including advanced semiconductors and closed-weight AI systems. This should enable innovations with returns to the US, combining American technology with niche expertise or data held elsewhere. Take AlphaFold as an example.</li>
+                <li><strong>Adversary exclusion:</strong> The US should make export controls against adversaries a condition of technology transfer. Japan, the Netherlands and Taiwan have all aligned export controls with the US, despite some high-profile failures. The US should now establish a shared control list, with specific quotas for the export of sensitive technology to adversaries. A working group should oversee the creation and maintenance of the control list and facilitate information sharing between allies on enforcement.</li>
+              </ul>
+
+              <p>The US-UAE deal is a rough blueprint for what allied scale could look like in practice. The UAE is investing $1.4tn in the US over ten years, including projects to increase aluminium production and establish secure, non-Chinese sources of Gallium. US companies are meanwhile investing in energy infrastructure in the UAE. The UAE is winning the right to import 500,000 Nvidia GPUs p/a. However, they must 'align their national security regulations with the US' and 'prevent the diversion of US-origin technology'. Capacity building, plus technology transfer, plus measures for adversary exclusion.</p>
+
+              <h2>Benefits to the US and Allies</h2>
+
+              <p>This approach has clear benefits to US allies. They benefit from access to potentially transformational US technology. The costs of export controls can be negotiated at each update to the proposed shared control list. Indeed, it seems feasible that the US could secure an enduring lead on AI without leveraging its network of allies. What, then, are the benefits to the US?</p>
+
+              <ul>
+                <li><strong>Stronger export control regime:</strong> The US benefits from a more robust export control regime, where non-compliance is tied to access to US technology that becomes increasingly critical to national defence and public service delivery. A stronger export control regime may drive China to take more aggressive action to invest in domestic production or deny access to inputs such as rare earths. However, stronger export controls may be sufficient to delay Chinese AI progress until the US has unlocked recursive self-improvement, and mutual investment among allies could minimise the effects of unilateral Chinese controls.</li>
+                <li><strong>Building useful dependencies:</strong> The threat posed by Huawei was that China would leverage its control of global communications networks to gather intelligence and extract concessions from other countries. The US has established similar dependencies — F-35s rely on regular software updates from Lockheed Martin. By facilitating technology transfer to allies the US will build dependencies it can leverage: CUDA is ultimately what enables full performance on Nvidia GPUs.</li>
+                <li><strong>Avoiding broader instability:</strong> What does the world look like if the US does not facilitate technology transfer to allies? US allies could turn to Chinese technology, allowing China to build the dependencies the US feared regarding Huawei. Or US allies could intervene to avoid being left behind, putting up regulatory barriers that exclude US companies from their markets, or taking more aggressive actions to disrupt the semiconductor supply chain. The US has an interest in keeping allied countries near the AI frontier, and dependent on US technology.</li>
+              </ul>
+
+              <h2>The Problem of Benefit Sharing</h2>
+
+              <p>Countries will only make mutual investments if they think they will benefit. Take the EU's 'AI Factories' initiative as an example. Ideally, the EU would establish datacentres where input costs are lowest. However, there is no mechanism for distributing the benefits of concentrated datacentres to other countries. Therefore, the local benefits will always outweigh the collective benefits, and we end up with each EU member state hosting their own cluster.</p>
+
+              <p>Overcoming this problem is critical to unlocking allied scale for AI. A new model of partnership will be needed, where countries can confidently offshore critical industries in the knowledge that they will benefit from each country playing to their comparative advantage. Reaching a new model of partnership will require US sponsorship and a collective recognition that the best route to leading on AI development and diffusion against China involves close collaboration between allies. On net there is no competition.</p>
+            </div>
+          </div>
+        </li>
+
+        <li class="writing-item">
+          <div class="writing-item-header" onclick="toggleEssay('agi')">
+            <div class="writing-meta">
+              <span class="writing-year">Apr 2025</span>
+              <span class="writing-status status-note">Note</span>
+            </div>
+            <p class="writing-title">Two Concepts of AI and Geopolitics</p>
+            <p class="writing-subtitle">Maybe AGI is the wrong milestone to track.</p>
+          </div>
+          <div class="essay-body" id="essay-agi">
+            <button class="essay-back" onclick="toggleEssay('agi')">&#8592; Back</button>
+            <div class="essay-content">
+              <h1>Two Concepts of AI and Geopolitics</h1>
+              <span class="essay-date">April 2025</span>
+
+              <p>Two broad ways of thinking about the impact of Artificial General Intelligence (AGI) on geopolitics are emerging. They differ by the extent to which model capabilities are deemed sufficient for real-world impact.</p>
+
+              <p>The 'capabilities are sufficient for impact' story sounds like this. There is a 'takeoff' point in model capabilities. There is a sharp discontinuity after this point. The takeoff point is not AGI, but superhuman software engineering capabilities that close the loop on automated AI R&amp;D. The country that reaches the takeoff point first gains a compounding advantage. The leading country can convert its advantage to prevent others from reaching the takeoff point.</p>
+
+              <p>The 'capabilities are insufficient for impact' story sounds like this. There is no binary 'takeoff' point in model capabilities. The country that leads in model capabilities has an advantage but not a decisive one. Automated R&amp;D hits diminishing returns, and companies cannot dedicate entire compute budgets to recursive self-improvement. Implementation challenges further limit the advantage of the leading country. Lagging countries can plausibly outcompete the leader by adopting 'good enough' AI.</p>
+
+              <p>These stories matter because they imply radically different policy options. If the country that reaches a takeoff point in model capabilities first gains a decisive advantage, policy priorities become:</p>
+
+              <ul>
+                <li>Moonshot investment in AI R&amp;D, including scaling public investment in compute, curating population-level datasets, and aggressive talent acquisition and retention, perhaps including specialised headhunting programs.</li>
+                <li>Strict securitisation, including public-private partnerships for enhanced model weight security, classification of moonshot research, and dedicated tasking to gather information on adversary progress.</li>
+                <li>Technology denial, including export controls on AI accelerators bound for adversaries, allied export controls on semiconductor manufacturing equipment, and bans on FDI that supports adversary AI companies.</li>
+              </ul>
+
+              <p>But if a country that diffuses 'good enough' model capabilities can outcompete the leader, policy priorities become:</p>
+
+              <ul>
+                <li>Breaking implementation barriers, including workforce upskilling and retraining, financial incentives for enterprise adoption, root and branch review of existing statute to identify legislation that limits adoption or causes perverse outcomes with perfect enforcement.</li>
+                <li>Enabling investment, including efforts to enable an open-source ecosystem for 'capability smoothing', building fine-tuned or distilled models and agent harnesses that address jagged model capabilities, easing adoption.</li>
+                <li>Limited regulation, aimed at building public trust and maintaining competition in the market, facilitating low-cost solutions for businesses and lowering switching costs, enabling data portability.</li>
+              </ul>
+
+              <p>As ever, the reality is likely in the messy middle. Having a lead in specific, 'spiky' capabilities matters. A country with a significant advantage in cyber operations could exercise influence over its competitors. Take Stuxnet as an example.</p>
+
+              <p>Yet capability does not equal deployment. It is not a given that spiky capabilities will be leveraged in national security applications. Leaving aside bureaucratic and regulatory hurdles, there is a risk that the current paradigm of AI development forces national security agencies to stay behind the curve. Agencies might be unwilling to take the risk of adopting closed-source systems built by private companies based in other countries, due to risk of backdoors. Yet the best open-source systems pose similar risks. The advantage from bootstrapping below-par open-source models also available to adversaries is likely to be limited.</p>
+
+              <p>And achieving a sustained advantage will depend on diffusion. Building on Paul Kennedy, Jeff Ding makes the case that technological change creates differential growth rates between countries, which lead to shifts in the economic and ultimately military and political balance of power. Successful adoption of technology builds a foundation for economic growth and creates spillover effects that allow lagging countries to compete. Higher long-term growth rates also create opportunities to invest in capabilities that compensate for 'spiky' disadvantages: what the PRC lacks in aircraft carriers it compensates in A2/AD capabilities that raise the costs of US action in the Taiwan Strait.</p>
+
+              <p>This points to a world where AGI is the wrong milestone to track. We define AGI as systems that achieve human-level or higher performance across most cognitive tasks. AGI is less relevant as an inflection point if you are tracking the impact on geopolitics. What matters instead is (a) specific spiky capabilities, particularly in national security domains, and (b) adoption rates. AGI is relevant mostly as a milestone that signals greater adoption is now possible, due to substitution effects.</p>
+            </div>
+          </div>
+        </li>
+
+      </ul>
+    </section>
+
+    <footer>
+      <p class="footer-inner">Dylan Rogers &mdash; Updated 2026</p>
+    </footer>
+
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+
+      function showPage(id) {
+        document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
+        document.querySelectorAll('nav button').forEach(function(b) { b.classList.remove('active'); });
+        document.getElementById('page-' + id).classList.add('active');
+        document.getElementById('nav-' + id).classList.add('active');
+      }
+
+      document.getElementById('nav-about').addEventListener('click', function() { showPage('about'); });
+      document.getElementById('nav-writing').addEventListener('click', function() { showPage('writing'); });
+      document.getElementById('nav-wordmark').addEventListener('click', function() { showPage('about'); });
+
+      // Email obfuscation
+      var parts = ['dylan', '.', 'rogers', '@', 'g', '.', 'harvard', '.', 'edu'];
+var display = ['dylan', '.', 'rogers', '[at]', 'g', '.', 'harvard', '.', 'edu'].join('');
+      var addr = parts.join('');
+      var el = document.getElementById('email-link');
+      if (el) { el.textContent = display; el.href = 'mailto:' + addr; }
+
+    });
+
+    function toggleEssay(id) {
+      var body = document.getElementById('essay-' + id);
+      var isOpen = body.classList.contains('open');
+
+      // Close all essays first
+      document.querySelectorAll('.essay-body').forEach(function(e) { e.classList.remove('open'); });
+
+      if (!isOpen) {
+        body.classList.add('open');
+        // Scroll to the essay header
+        body.parentElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+  </script>
+</body>
+</html>
